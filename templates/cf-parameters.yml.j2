@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+
+  Prefix:
+    Type: String
+  ClusterName:
+    Type: String
+{% for z in range(0,PARAMETERS|length) %}
+  {{PARAMETERS[z].PATH}}{{PARAMETERS[z].NAME}}:
+{% if PARAMETERS[z].TYPE is defined %}
+    Type: {{PARAMETERS[z].TYPE}}
+{% else %}
+    Type: String
+{% endif %}
+{% endfor %}
+ 
+Resources:
+
+{% for z in range(0,PARAMETERS|length) %}
+  SMM{{PARAMETERS[z].PATH}}{{PARAMETERS[z].NAME}}:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub "/${Prefix}/${ClusterName}/{{PARAMETERS[z].PATH}}/{{PARAMETERS[z].NAME}}"
+      Type: String
+      Value: !Ref "{{PARAMETERS[z].PATH}}{{PARAMETERS[z].NAME}}"
+      Description: {{PARAMETERS[z].DESCRIPTION}}
+      Tags: 
+        ClusterName: !Ref ClusterName
+        Release: {{TAGS.RELEASE}}
+        Environment: {{TAGS.ENVIRONMENT_TYPE}}
+
+{% endfor %}

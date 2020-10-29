@@ -1,0 +1,6 @@
+---
+- name: Generate CF Parameters
+  template:
+    src: "cf-parameters.yml.j2"
+    dest: "{{ TEMPLATE_DEST }}"
+    mode: 0644
