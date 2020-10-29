@@ -13,7 +13,7 @@ Role Variables
 --------------
 
 - TEMPLATE_DEST:
-- TAGS: (List)
+- TAGS:
     - RELEASE:
     - ENVIRONMENT_TYPE:
 - PARAMETERS: (List)
